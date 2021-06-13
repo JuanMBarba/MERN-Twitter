@@ -5,6 +5,8 @@ const router = express.Router();
 const keys = require("../../config/keys");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 
 
 router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
@@ -19,11 +21,11 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
 
 router.post("/register", (req, res) => {
 
-    // const { errors, isValid } = validateRegisterInput(req.body);
+    const { errors, isValid } = validateRegisterInput(req.body);
 
-    // if (!isValid) {
-    //     return res.status(400).json(errors);
-    // }
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
 
     User.findOne({ email: req.body.email })
     .then(user => {
@@ -51,11 +53,11 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
 
-    // const { errors, isValid } = validateLoginInput(req.body);
+    const { errors, isValid } = validateLoginInput(req.body);
 
-    // if (!isValid) {
-    //     return res.status(400).json(errors);
-    // }
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
 
     const email = req.body.email;
     const password = req.body.password;

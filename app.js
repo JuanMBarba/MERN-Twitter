@@ -14,7 +14,6 @@ mongoose
     .catch(err => console.log(err));
 
 
-
 // app.get("/", (req, res) => {
 //     const user = new User({
 //         handle: "jim",
